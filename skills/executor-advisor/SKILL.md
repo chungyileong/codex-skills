@@ -5,20 +5,6 @@ description: Coordinate a single-controller Executor-Advisor workflow in Codex. 
 
 # Executor-Advisor
 
-## Install
-
-Install the files into separate locations:
-
-```sh
-mkdir -p ~/.codex/skills/executor-advisor ~/.codex/agents
-cp SKILL.md ~/.codex/skills/executor-advisor/SKILL.md
-cp agents/advisor.toml ~/.codex/agents/advisor.toml
-```
-
-`SKILL.md` belongs in the skill directory. `advisor.toml` belongs in the
-global agent directory so Codex can discover the custom `advisor` agent type.
-Restart Codex after installing or updating either file.
-
 ## Keep one controller
 
 - Keep the current root thread as the executor. It owns the user conversation,
@@ -37,7 +23,7 @@ Verify that the `advisor` agent type is available before using this workflow.
 By default, use the strongest available advisor model with `medium` reasoning.
 If `advisor` is unavailable, do not silently substitute a write-capable worker.
 Continue executor-only. When the user explicitly invoked this skill, say that
-the advisor was unavailable and point to the Install section; for implicit use,
+the advisor was unavailable and point to the skill README; for implicit use,
 mention it only when it materially lowers confidence. Do not claim a model,
 reasoning level, sandbox, or agent type is active unless the current session
 confirms it.
