@@ -1,6 +1,6 @@
 {
   "name": "executor-advisor",
-  "version": "0.1.0",
+  "version": "0.1.1+codex.20260715175822",
   "description": "Add a persistent, read-only advisor to complex Codex tasks.",
   "author": {
     "name": "chungyileong",
@@ -8,7 +8,12 @@
   },
   "homepage": "https://github.com/chungyileong/codex-skills",
   "repository": "https://github.com/chungyileong/codex-skills",
-  "keywords": ["advisor", "review", "subagent", "workflow"],
+  "keywords": [
+    "advisor",
+    "review",
+    "subagent",
+    "workflow"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Executor Advisor",
@@ -16,7 +21,9 @@
     "longDescription": "Keep the main task in control while one persistent advisor challenges plans, diagnoses stalls, and reviews the final result.",
     "developerName": "chungyileong",
     "category": "Productivity",
-    "capabilities": ["Read"],
+    "capabilities": [
+      "Read"
+    ],
     "websiteURL": "https://github.com/chungyileong/codex-skills",
     "defaultPrompt": [
       "Set up my default advisor.",
