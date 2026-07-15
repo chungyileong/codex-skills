@@ -9,10 +9,10 @@ description: Coordinate a single-controller Executor-Advisor workflow in Codex. 
 
 - Keep the current root task as the executor. It owns the user conversation,
   decisions, edits, commands, tests, and final response.
-- Use one custom `advisor` subagent for analysis and criticism only.
-- Create at most one advisor thread per logical task. Retain its thread ID
-  across user turns and checkpoints, and never spawn an advisor per turn.
-- Never create advisor descendants or an advisor debate loop.
+- Use at most one active `advisor` per logical task for analysis and criticism;
+  permit at most one replacement. Reuse it across turns; never spawn per turn.
+- Never run advisors concurrently or create a third. A new initial advisor is
+  allowed only for a genuinely new task.
 - Treat advice as evidence and verify it before acting.
 
 ## Ensure the advisor exists
@@ -59,20 +59,20 @@ add calls for routine work.
 
 ## Start once, then send deltas
 
-If no advisor thread ID exists at task start, create one advisor thread, then
-retain its ID in the root task context. Reuse that thread across ordinary user
-turns and checkpoints; do not intentionally abandon or recreate it. For later
-calls, send only changed requirements, new evidence, test results, decisions,
-and the new question.
+For a genuinely new logical task with no advisor previously created, create one
+initial advisor and retain it in the root task context. Reuse it across ordinary
+turns. For later calls, send only changed requirements, new evidence, test
+results, decisions, and the new question.
 Do not resend unchanged constraints or background. Include the full constraints
 only in the initial request or when rehydrating a replacement thread; later
 deltas should mention constraints only when they changed.
 
-If the thread is verified to be lost or no longer addressable, create at most one
-replacement and rehydrate it with a compact summary of the objective,
-constraints, affected files, decisions, evidence, prior advice, and open
-question. A settings mismatch alone is not a reason to replace it; explain any
-unsupported override instead.
+On resume failure, retry the same advisor once; a transient failure is not proof
+of loss. Create one replacement only after verified loss of the initial advisor
+and only if no replacement has previously been created for this logical task.
+Rehydrate it with a compact summary of the objective, constraints, affected
+files, decisions, evidence, prior advice, and open question. If loss cannot be
+verified, do not spawn; continue independently and disclose the limitation.
 
 ## Ask one focused question
 
