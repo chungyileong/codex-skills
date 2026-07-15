@@ -13,7 +13,9 @@ this `SKILL.md`; never guess an installed plugin cache path.
 - Set up or initialize: run the script with no options. It creates the default
   only when the target does not exist.
 - Show or diagnose: run with `--status`.
-- Set a persistent model: run with `--model <model>`.
+- Set a persistent model: run with `--model <model>`. The script queries
+  `codex debug models` and writes the catalog's exact `slug` (it also accepts a
+  matching display name).
 - Set persistent reasoning: run with `--reasoning <effort>`.
 - Inherit the task model or reasoning: use `--inherit-model` or
   `--inherit-reasoning`.
@@ -21,6 +23,8 @@ this `SKILL.md`; never guess an installed plugin cache path.
   explicitly asks; it backs up the existing file first.
 
 Combine model and reasoning options in one command when the user requests both.
+If Codex cannot list models or the requested model is unavailable, stop without
+writing the advisor file and report the error.
 Do not edit the bundled template to customize one user.
 
 After creating or changing the installed agent, tell the user to start a new

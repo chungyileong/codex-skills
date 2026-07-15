@@ -6,6 +6,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import tempfile
 from pathlib import Path
 
@@ -17,6 +18,26 @@ SETTING_RE = r"(?m)^[ \t]*{key}[ \t]*=[^\n]*(?:\n|$)"
 def advisor_path():
     codex_home = os.environ.get("CODEX_HOME")
     return (Path(codex_home).expanduser() if codex_home else Path.home() / ".codex") / "agents" / "advisor.toml"
+
+
+def available_models():
+    try:
+        result = subprocess.run(
+            ["codex", "debug", "models"], check=True, capture_output=True, text=True
+        )
+        return json.loads(result.stdout)["models"]
+    except (FileNotFoundError, subprocess.CalledProcessError, json.JSONDecodeError, KeyError) as error:
+        raise SystemExit(f"could not list Codex models: {error}") from error
+
+
+def resolve_model(model):
+    requested = model.strip()
+    for candidate in available_models():
+        slug = candidate["slug"]
+        normalized = re.sub(r"[\s_-]+", "-", requested.casefold())
+        if requested == slug or normalized == re.sub(r"[\s_-]+", "-", slug.casefold()) or requested.casefold() == candidate.get("display_name", "").casefold():
+            return slug
+    raise SystemExit(f"model is not available in Codex: {requested}")
 
 
 def set_setting(text, key, value):
@@ -103,8 +124,11 @@ def main():
     current = target.read_text() if existed else None
     text = TEMPLATE.read_text() if args.reset or current is None else current
 
+    if args.reset or current is None:
+        text = set_setting(text, "model", resolve_model(setting(text, "model").strip('"')))
+
     if args.model is not None:
-        text = set_setting(text, "model", args.model.strip())
+        text = set_setting(text, "model", resolve_model(args.model))
     elif args.inherit_model:
         text = set_setting(text, "model", None)
 

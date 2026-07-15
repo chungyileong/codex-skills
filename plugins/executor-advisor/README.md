@@ -33,10 +33,11 @@ Use Executor Advisor for this architecture review.
 
 ## Configure the advisor
 
-The default uses `gpt-5.6` with medium reasoning. Ask Codex to change it:
+Setup resolves the default model to an exact slug from `codex debug models`.
+Ask Codex to change it:
 
 ```text
-Set my advisor model to gpt-5.6 and reasoning to high.
+Set my advisor model to GPT-5.6-Sol and reasoning to high.
 Make my advisor inherit the task model and reasoning.
 Show my advisor configuration.
 Reset my advisor to the plugin defaults.
@@ -45,8 +46,9 @@ Reset my advisor to the plugin defaults.
 Configuration changes preserve the rest of your agent file. Reset creates
 `advisor.toml.bak` first.
 
-If `gpt-5.6` is unavailable for your account, choose an available model or ask
-the setup skill to inherit the task model and reasoning.
+If the requested model is unavailable for your account, choose one from
+`codex debug models` or ask the setup skill to inherit the task model and
+reasoning.
 
 ## Update
 

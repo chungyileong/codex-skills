@@ -4,7 +4,7 @@ nickname_candidates = ["Review Advisor"]
 
 # Portable defaults for demanding work. Use the advisor-setup skill to change
 # these or remove them so the advisor inherits the parent task settings.
-model = "gpt-5.6"
+model = "gpt-5.6-sol"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 

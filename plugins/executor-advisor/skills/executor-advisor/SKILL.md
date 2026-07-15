@@ -16,7 +16,7 @@ description: Coordinate a single-controller Executor-Advisor workflow in Codex. 
 
 ## Ensure the advisor exists
 
-Use the custom agent type `advisor` discovered from
+Use exactly the custom agent type/name `advisor`, discovered from
 `~/.codex/agents/advisor.toml`, or from `$CODEX_HOME/agents/advisor.toml` when
 `CODEX_HOME` is set.
 
@@ -27,10 +27,11 @@ task cannot discover the new agent, tell the user setup is complete and ask
 them to start a new task; do not silently substitute a write-capable worker or
 claim an advisor was used.
 
-The bundled default is `gpt-5.6` with medium reasoning. Persistent user
-configuration wins. Honor a per-task model or reasoning override only when the
-spawn interface supports and confirms it; otherwise explain that it was not
-applied and point the user to the `advisor-setup` skill for a persistent change.
+The bundled default is resolved to an exact available Codex model slug with
+medium reasoning. Persistent user configuration wins. Honor a per-task model
+or reasoning override only when the spawn interface supports and confirms it;
+otherwise explain that it was not applied and point the user to the
+`advisor-setup` skill for a persistent change.
 
 ## Consult only at high-value moments
 
