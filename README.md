@@ -3,10 +3,8 @@
 Use one read-only advisor for high-value planning and final review while the
 main Codex task remains the only executor.
 
-This is a plugin, not a standalone skill. The old `$skill-installer` flow could
-copy the workflow but could not register `advisor.toml` in
-`~/.codex/agents/`. The plugin includes an `advisor-setup` skill that handles
-that separate Codex configuration safely.
+The plugin includes the Executor Advisor workflow and an `advisor-setup` skill
+that manages the custom agent configuration safely.
 
 ## Install
 
@@ -28,7 +26,7 @@ new custom agent.
 Then use it naturally:
 
 ```text
-Use Executor Advisor for this migration.
+Use Executor Advisor for this architecture review.
 ```
 
 ## Configure the advisor
@@ -47,13 +45,6 @@ Configuration changes preserve the rest of your agent file. Reset creates
 
 If `gpt-5.6` is unavailable for your account, choose an available model or ask
 the setup skill to inherit the task model and reasoning.
-
-## Migrate from the old skill install
-
-If you previously used `$skill-installer`, remove or move
-`~/.codex/skills/executor-advisor` after installing this plugin so Codex does
-not show two copies of the workflow. Keep `~/.codex/agents/advisor.toml`; setup
-will preserve it.
 
 ## Update
 

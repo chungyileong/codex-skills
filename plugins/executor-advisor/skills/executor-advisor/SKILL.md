@@ -1,6 +1,6 @@
 ---
 name: executor-advisor
-description: Coordinate a single-controller Executor-Advisor workflow in Codex. Keep the root task as the sole executor and consult one persistent, read-only `advisor` custom subagent at high-value planning, recovery, and final-review checkpoints. Use for long-horizon or high-risk coding, research, architecture, debugging, migration, concurrency, security, performance, and review tasks where a second opinion can materially improve the result; skip routine or directly verifiable work.
+description: Coordinate a single-controller Executor-Advisor workflow in Codex. Keep the root task as the sole executor and consult one persistent, read-only `advisor` custom subagent at high-value planning, recovery, and final-review checkpoints. Use for long-horizon or high-risk coding, research, architecture, debugging, concurrency, security, performance, and review tasks where a second opinion can materially improve the result; skip routine or directly verifiable work.
 ---
 
 # Executor Advisor
