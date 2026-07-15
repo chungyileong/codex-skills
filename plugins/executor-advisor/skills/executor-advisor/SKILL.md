@@ -1,6 +1,6 @@
 ---
 name: executor-advisor
-description: Coordinate a single-controller Executor-Advisor workflow in Codex. Keep the root task as the sole executor and consult one persistent, read-only `advisor` custom subagent at high-value planning, recovery, and final-review checkpoints. Use for long-horizon or high-risk coding, research, architecture, debugging, concurrency, security, performance, and review tasks where a second opinion can materially improve the result; skip routine or directly verifiable work.
+description: Coordinate a single-controller Executor-Advisor workflow in Codex. Keep the root task as the sole executor and consult at most one read-only `advisor` custom subagent per logical task at high-value planning, recovery, and final-review checkpoints. Use for long-horizon or high-risk coding, research, architecture, debugging, concurrency, security, performance, and review tasks where a second opinion can materially improve the result; skip routine or directly verifiable work.
 ---
 
 # Executor Advisor
@@ -10,8 +10,9 @@ description: Coordinate a single-controller Executor-Advisor workflow in Codex. 
 - Keep the current root task as the executor. It owns the user conversation,
   decisions, edits, commands, tests, and final response.
 - Use one custom `advisor` subagent for analysis and criticism only.
-- Reuse the same advisor thread throughout the task. Never create advisor
-  descendants or an advisor debate loop.
+- Create at most one advisor thread per logical task. Retain its thread ID
+  across user turns and checkpoints, and never spawn an advisor per turn.
+- Never create advisor descendants or an advisor debate loop.
 - Treat advice as evidence and verify it before acting.
 
 ## Ensure the advisor exists
@@ -53,16 +54,20 @@ add calls for routine work.
 
 ## Start once, then send deltas
 
-Reuse an existing `advisor` thread when it matches the requested settings.
-Otherwise create one advisor for the task. For later calls, send only changed
-requirements, new evidence, test results, decisions, and the new question.
+If no advisor thread ID exists at task start, create one advisor thread, then
+retain its ID in the root task context. Reuse that thread across ordinary user
+turns and checkpoints; do not intentionally abandon or recreate it. For later
+calls, send only changed requirements, new evidence, test results, decisions,
+and the new question.
 Do not resend unchanged constraints or background. Include the full constraints
 only in the initial request or when rehydrating a replacement thread; later
 deltas should mention constraints only when they changed.
 
-If the thread is no longer addressable, create one replacement and rehydrate it
-with a compact summary of the objective, constraints, affected files, decisions,
-evidence, prior advice, and open question.
+If the thread is verified to be lost or no longer addressable, create at most one
+replacement and rehydrate it with a compact summary of the objective,
+constraints, affected files, decisions, evidence, prior advice, and open
+question. A settings mismatch alone is not a reason to replace it; explain any
+unsupported override instead.
 
 ## Ask one focused question
 

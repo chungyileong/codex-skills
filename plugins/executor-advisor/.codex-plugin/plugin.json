@@ -1,7 +1,7 @@
 {
   "name": "executor-advisor",
-  "version": "0.1.1+codex.20260715175822",
-  "description": "Add a persistent, read-only advisor to complex Codex tasks.",
+  "version": "0.1.2",
+  "description": "Add one read-only advisor per logical task to complex Codex work.",
   "author": {
     "name": "chungyileong",
     "url": "https://github.com/chungyileong"
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "Executor Advisor",
     "shortDescription": "A read-only second opinion for difficult tasks",
-    "longDescription": "Keep the main task in control while one persistent advisor challenges plans, diagnoses stalls, and reviews the final result.",
+    "longDescription": "Keep the main task in control while one advisor is reused across turns to challenge plans, diagnose stalls, and review the final result.",
     "developerName": "chungyileong",
     "category": "Productivity",
     "capabilities": [

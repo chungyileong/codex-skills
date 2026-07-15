@@ -1,7 +1,14 @@
 # Executor Advisor
 
-Use one read-only advisor for high-value planning and final review while the
-main Codex task remains the only executor.
+Use at most one read-only advisor per logical task for high-value planning and
+final review while the main Codex task remains the only executor.
+
+Keep the same advisor thread ID across user turns and checkpoints. Never spawn
+one advisor per turn; create at most one replacement only after the original is
+verified lost or unreachable.
+
+If the task has no advisor thread yet, create one at the first high-value
+checkpoint and retain its ID for the rest of the task.
 
 The plugin includes the Executor Advisor workflow and an `advisor-setup` skill
 that manages the custom agent configuration safely.
