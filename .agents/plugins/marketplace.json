@@ -1,0 +1,20 @@
+{
+  "name": "chungyileong-codex-skills",
+  "interface": {
+    "displayName": "Chungyileong Codex Skills"
+  },
+  "plugins": [
+    {
+      "name": "executor-advisor",
+      "source": {
+        "source": "local",
+        "path": "./plugins/executor-advisor"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Executor Advisor"
+  short_description: "Consult one persistent read-only advisor"
+  default_prompt: "Use $executor-advisor to review this task."

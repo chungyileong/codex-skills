@@ -1,0 +1,4 @@
+interface:
+  display_name: "Advisor Setup"
+  short_description: "Install or customize the read-only advisor"
+  default_prompt: "Set up my default advisor."
