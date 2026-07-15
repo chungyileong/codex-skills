@@ -1,57 +1,17 @@
-# Executor Advisor for Codex
+# codex-skills
 
-Use one read-only advisor for high-value planning and final review while the
-main Codex task remains the only executor.
+A collection of Codex plugins and reusable skills.
 
-The plugin includes the Executor Advisor workflow and an `advisor-setup` skill
-that manages the custom agent configuration safely.
-
-## Install
+## Add the marketplace
 
 ```sh
 codex plugin marketplace add chungyileong/codex-skills
-codex plugin add executor-advisor@chungyileong-codex-skills
 ```
 
-Start a new Codex task and ask:
+## Plugins
 
-```text
-Set up my default advisor.
-```
+- [Executor Advisor](plugins/executor-advisor/) — consult one persistent,
+  read-only advisor for difficult tasks while the main task remains the sole
+  executor.
 
-The setup skill creates `~/.codex/agents/advisor.toml` without replacing an
-existing file. Start one more new task when prompted so Codex can discover the
-new custom agent.
-
-Then use it naturally:
-
-```text
-Use Executor Advisor for this architecture review.
-```
-
-## Configure the advisor
-
-The default uses `gpt-5.6` with medium reasoning. Ask Codex to change it:
-
-```text
-Set my advisor model to gpt-5.6 and reasoning to high.
-Make my advisor inherit the task model and reasoning.
-Show my advisor configuration.
-Reset my advisor to the plugin defaults.
-```
-
-Configuration changes preserve the rest of your agent file. Reset creates
-`advisor.toml.bak` first.
-
-If `gpt-5.6` is unavailable for your account, choose an available model or ask
-the setup skill to inherit the task model and reasoning.
-
-## Update
-
-```sh
-codex plugin marketplace upgrade chungyileong-codex-skills
-codex plugin add executor-advisor@chungyileong-codex-skills
-```
-
-Plugin updates never overwrite your personal `~/.codex/agents/advisor.toml`.
-Ask Codex to reset the advisor only when you want the latest bundled defaults.
+See each plugin's README for installation, setup, and usage.
