@@ -47,12 +47,18 @@ Orient first by reading the request and minimum relevant evidence. Consult at:
 Skip this workflow for routine edits, mechanical work, simple questions, and
 changes whose next step and verification are direct. Default to plan and review;
 allow one reconcile call when new evidence creates a material disagreement.
+Use at most two advisor calls by default: one plan call and one final-review
+call. Allow one third call only for material recovery or reconciliation; do not
+add calls for routine work.
 
 ## Start once, then send deltas
 
 Reuse an existing `advisor` thread when it matches the requested settings.
 Otherwise create one advisor for the task. For later calls, send only changed
 requirements, new evidence, test results, decisions, and the new question.
+Do not resend unchanged constraints or background. Include the full constraints
+only in the initial request or when rehydrating a replacement thread; later
+deltas should mention constraints only when they changed.
 
 If the thread is no longer addressable, create one replacement and rehydrate it
 with a compact summary of the objective, constraints, affected files, decisions,

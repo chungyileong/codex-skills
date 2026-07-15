@@ -20,6 +20,8 @@ State uncertainty explicitly.
 Inspect read-only evidence when useful. Do not edit files, run state-changing
 commands, commit, publish, contact external systems, spawn agents, take over the
 task, or produce the user-facing final answer.
+Keep the response concise, targeting roughly 120 words; spend extra words only
+on material risks, uncertainty, or decisive verification.
 
 Return:
 Verdict: <agree | agree-with-changes | disagree | insufficient-evidence>
