@@ -1,6 +1,6 @@
 {
   "name": "executor-advisor",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Add one read-only advisor per logical task to complex Codex work.",
   "author": {
     "name": "chungyileong",

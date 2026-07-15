@@ -8,10 +8,19 @@ import re
 import shutil
 import subprocess
 import tempfile
+import tomllib
 from pathlib import Path
 
 
 TEMPLATE = Path(__file__).resolve().parent.parent / "assets" / "advisor.toml"
+REQUIRED_KEYS = {
+    "name",
+    "description",
+    "sandbox_mode",
+    "developer_instructions",
+}
+OPTIONAL_STRING_KEYS = {"model", "model_reasoning_effort"}
+REASONING_EFFORTS = {"ultra", "max", "xhigh", "high", "medium", "low", "minimal", "none"}
 SETTING_RE = r"(?m)^[ \t]*{key}[ \t]*=[^\n]*(?:\n|$)"
 
 
@@ -78,14 +87,65 @@ def write_atomic(path, text):
             os.unlink(temporary)
 
 
+def validation_errors(text):
+    try:
+        config = tomllib.loads(text)
+    except tomllib.TOMLDecodeError as error:
+        return [f"invalid TOML: {error}"]
+
+    errors = []
+    missing = sorted(REQUIRED_KEYS - config.keys())
+    if missing:
+        errors.append(f"missing required fields: {', '.join(missing)}")
+
+    wrong_types = sorted(
+        key
+        for key in REQUIRED_KEYS | OPTIONAL_STRING_KEYS
+        if key in config and not isinstance(config[key], str)
+    )
+    if wrong_types:
+        errors.append(f"fields must be strings: {', '.join(wrong_types)}")
+
+    if config.get("name") != "advisor":
+        errors.append('name must be "advisor"')
+    if config.get("sandbox_mode") != "read-only":
+        errors.append('sandbox_mode must be "read-only"')
+
+    model = config.get("model")
+    if isinstance(model, str) and model:
+        try:
+            models = available_models()
+        except SystemExit as error:
+            errors.append(str(error))
+        else:
+            supported = {candidate.get("slug") for candidate in models}
+            if model not in supported:
+                errors.append(f"model is not available in Codex: {model}")
+    elif "model" in config and not model:
+        errors.append("model must be a non-empty string")
+
+    reasoning = config.get("model_reasoning_effort")
+    if isinstance(reasoning, str) and reasoning not in REASONING_EFFORTS:
+        errors.append(f"unsupported reasoning effort: {reasoning}")
+    return errors
+
+
 def print_status(path, text=None):
     if text is None and path.exists():
         text = path.read_text()
     print(f"path: {path}")
     print(f"installed: {'yes' if text is not None else 'no'}")
-    if text is not None:
-        print(f"model: {setting(text, 'model')}")
-        print(f"reasoning: {setting(text, 'model_reasoning_effort')}")
+    if text is None:
+        print("validation: missing")
+        return ["advisor config is missing"]
+
+    errors = validation_errors(text)
+    print(f"validation: {'valid' if not errors else 'invalid'}")
+    for error in errors:
+        print(f"error: {error}")
+    print(f"model: {setting(text, 'model')}")
+    print(f"reasoning: {setting(text, 'model_reasoning_effort')}")
+    return errors
 
 
 def parse_args():
@@ -117,11 +177,16 @@ def main():
     target = advisor_path()
 
     if args.status:
-        print_status(target)
+        if print_status(target):
+            raise SystemExit(1)
         return
 
     existed = target.exists()
     current = target.read_text() if existed else None
+    if existed and not args.reset and not any((args.model, args.inherit_model, args.reasoning, args.inherit_reasoning)):
+        errors = validation_errors(current)
+        if errors:
+            raise SystemExit("existing advisor config is invalid; use --reset to repair it")
     text = TEMPLATE.read_text() if args.reset or current is None else current
 
     if args.reset or current is None:

@@ -21,12 +21,17 @@ Use exactly the custom agent type/name `advisor`, discovered from
 `~/.codex/agents/advisor.toml`, or from `$CODEX_HOME/agents/advisor.toml` when
 `CODEX_HOME` is set.
 
-If it is unavailable, run the sibling setup script at
-`../advisor-setup/scripts/configure_advisor.py` with no options. Resolve that
-path relative to this skill. Recheck availability after setup. If the current
-task cannot discover the new agent, tell the user setup is complete and ask
-them to start a new task; do not silently substitute a write-capable worker or
-claim an advisor was used.
+If it is unavailable, first run the sibling setup script at
+`../advisor-setup/scripts/configure_advisor.py --status` as a read-only
+diagnostic. Resolve that path relative to this skill. If the status is valid,
+retry discovery. If the config is missing, malformed, unsupported, or cannot
+be verified, stop and request explicit authorization before changing persistent
+configuration. After authorization, use no options only to initialize a
+missing config, or use `--reset` to repair an existing one; recheck discovery
+after setup. If a valid config still cannot be discovered, report the discovery
+failure and ask the user to start a new task; do not change persistent
+configuration, silently substitute a write-capable worker, or claim an advisor
+was used.
 
 The bundled default is resolved to an exact available Codex model slug with
 medium reasoning. Persistent user configuration wins. Honor a per-task model
