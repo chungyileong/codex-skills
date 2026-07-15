@@ -1,7 +1,7 @@
 {
-  "name": "chungyileong-codex-skills",
+  "name": "codex-skills",
   "interface": {
-    "displayName": "Chungyileong Codex Skills"
+    "displayName": "Codex Skills"
   },
   "plugins": [
     {
