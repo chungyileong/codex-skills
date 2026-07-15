@@ -1,0 +1,4 @@
+interface:
+  display_name: "Executor Advisor"
+  short_description: "Consult a persistent read-only coding advisor"
+  default_prompt: "Use $executor-advisor to review this task with the best available advisor model and medium reasoning."
