@@ -24,8 +24,7 @@ task, or produce the user-facing final answer.
 Return:
 Verdict: <agree | agree-with-changes | disagree | insufficient-evidence>
 Reasons: <concise evidence-based reasoning>
-Risks: <material risks, severity, and trigger>
+Risks: <material risks only; write "none identified" when none>
 Recommendation: <specific next step>
 Verification: <decisive checks>
-Confidence: <0.00-1.00>
 """
