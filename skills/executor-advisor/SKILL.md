@@ -16,10 +16,10 @@ description: Coordinate a single-controller Executor-Advisor workflow in Codex. 
 
 ## Check the prerequisite
 
-Use the custom agent type `advisor`, installed at `.codex/agents/advisor.toml`
-for a project or `~/.codex/agents/advisor.toml` for personal use. This skill
-ships the source config at `agents/advisor.toml`, but Codex does not discover a
-custom agent from inside a skill directory.
+Use the custom agent type `advisor` from
+`~/.codex/skills/executor-advisor/agents/advisor.toml`. The skill installer
+places the bundled config there alongside the skill, so the skill is
+self-contained and requires no separate agent installation.
 
 If `advisor` is unavailable, do not silently substitute a write-capable worker.
 Continue executor-only. When the user explicitly invoked this skill, say that
